@@ -1,0 +1,34 @@
+{
+    "name": "appkita/phpauth",
+    "description": "Library for Authentication API use PHP",
+    "keywords": ["php", "authentication", "auth", "jwt", "digest", "basic"],
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Gunanto Simamora",
+            "email": "gunanto.simamora@gmail.com",
+            "homepage": "https://app-kita.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=7.0",
+        "firebase/php-jwt": "^5.2"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Appkita\\PHPAuth\\": "src/",
+            "Appkita\\PHPAuth\\Type\\": "src/Type"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "phpunit\\phpunit": "^9"
+        }
+    },
+    "minimum-stability": "dev"
+}
