@@ -33,6 +33,90 @@ Edit composer.json and update composer
 - Basic Authentication
 - Digest Authentication
 
+## Using
+
+_configuration_
+```php
+  $config = [
+    'key_header'=>'X-API-KEY', //Delete if you not use API KEY
+    //jwt Configuration
+    'key'=>'key_JWT',
+    'data'=>'username',
+    'timeout'=>3600,
+    'iss'=>'mydomain.com',
+    'aud'=>'mydomain.com'
+  ];
+  $auth = new Appkita\PHPAuth\Authentication($config);
+  //or
+  use Appkita\PHPAuth;
+  $auth = new Authentication($config);
+  //or configuration default 
+  $auth = new Authentication();
+```
+
+```php
+    $cek = $auth->auth(METHOD, callback);
+```
+_callback_ : is function to cek username or key you can set return or die
+but if you using digest authentication you must return array
+```php 
+return ['username'=>username, 'password'=>password];
+```
+```js
+    method Support
+    METHOD::Key = 'key',
+    METHOD::Basic = 'basic',
+    METHOD::Digest = 'digest'
+    METHOD::Token = 'token' //is JWT Authentication
+    
+```
+_Example_
+### 1. KEY
+```php
+    $mykey = 'testingkey';
+    $cek = $auth->auth(METHOD::KEY, function($key) {
+        if ($key === $mykey) {
+            return true;
+        } else {
+            return false;
+        }
+    });
+```
+### 2. BASIC
+```php
+    $myusername = 'testingkey';
+    $mypassword = 'password';
+    $cek = $auth->auth(METHOD::BASIC, function($username, $password) {
+        if ($username == $myusername && $mypassword == $password) {
+            return true;
+        } else {
+            return false;
+        }
+    });
+```
+### 3. DIGEST
+```php
+    $myusername = 'testingkey';
+    $mypassword = 'password';
+    $cek = $auth->auth(METHOD::DIGEST, function($username, $password) {
+        if ($username == $myusername) {
+            return ['username'=>$myusername, 'password'=>$mypassword];
+        } else {
+            return false;
+        }
+    });
+```
+### 4. TOKEN (JWT)
+```php
+    $myusername = 'testingkey';
+    $cek = $auth->auth(METHOD::TOKEN, function($username) {
+        if ($username == $myusername) {
+            return true
+        } else {
+            return false;
+        }
+    });
+```
 ## Development
 
 Want to contribute? Great!
