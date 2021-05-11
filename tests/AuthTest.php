@@ -8,7 +8,16 @@ final class AuthTest extends TestCase
 
     function __construct() {
         parent::__construct();
-        $this->auth = new \Appkita\PHPAuth\Authentication();
+        $config = [
+            'allowed_key_parameter' => ['get', 'post', 'json'],
+            'key_header'=>'x-app-key',
+            'key'=>'123123',
+            'data'=>'email',
+            'timeout'=>1200,
+            'iss'=>'test',
+            'aud'=>'test'
+        ];
+        $this->auth = new \Appkita\PHPAuth\Authentication($config);
     }
 
     public function testKey() : void {

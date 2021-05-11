@@ -13,6 +13,7 @@ namespace Appkita\PHPAuth\Type;
 class Key 
 {  
     private $key_header = 'X-API-KEY';
+    private $allowed_key_parameter = ['get', 'post', 'json'];
 
     function __construct(Array $config = []) {
         foreach($config as $key => $value) {
@@ -23,16 +24,53 @@ class Key
        }
     }
 
-    public function decode(callable $callback) {
+    private function getParameter(string $method) {
+        $keyname = \str_replace(' ', '', $this->key_header);
+        switch(\strtolower(\str_replace(' ', '', $method))) {
+            case 'get':
+                return isset($_GET[$keyname]) ? $_GET[$keyname] : '';
+            break;
+            case 'post':
+                return isset($_POST[$keyname]) ? $_POST[$keyname] : '';
+            break;
+            case 'json':
+                $json = \file_get_contents('php://input');
+                $data = json_decode($json);
+                if (isset($data->{$keyname})) {
+                    return $data->{$keyname};
+                } else {
+                    return '';
+                }
+            break;
+            default:
+               return '';
+        }
+    }
+
+    private function getKey() {
         $keyname = str_replace(' ', '', $this->key_header);
         $keyname = strtoupper(str_replace('-', '_', $keyname));
-        if (!isset($_SERVER['HTTP_'. $keyname])) {
+        $key_value = isset($_SERVER['HTTP_'. $keyname]) ? $_SERVER['HTTP_'. $keyname] : '';
+        if (is_string($this->allowed_key_parameter)) {
+            $this->allowed_key_parameter = [$this->allowed_key_parameter];
+        }
+        $i = 0;
+        while(empty($key_value) && $i < \sizeof($this->allowed_key_parameter)) {
+            $param = $this->allowed_key_parameter[$i];
+			$param = strtolower($param);
+            $get = $this->getParameter($param);
+			$key_value = !empty($get) ? $get : $key_value;
+            $i++; 
+		}
+
+        return $key_value;
+    }
+
+    public function decode(callable $callback) {
+        $key = $this->getKey();
+        if (empty($key)) {
             return false;
         }
-        if (empty($_SERVER['HTTP_'. $keyname])) {
-            return false;
-        }
-        $key = $_SERVER['HTTP_'. $keyname];
         return \call_user_func($callback, $key);
     }
 }
