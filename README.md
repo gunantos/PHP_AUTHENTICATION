@@ -141,3 +141,6 @@ composer install
 
 MIT
 
+# Sponsor
+
+[Pay Coffe](https://sponsor.app-kita.net)
