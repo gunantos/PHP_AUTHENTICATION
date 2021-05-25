@@ -8,8 +8,7 @@
         {
             "name": "Gunanto Simamora",
             "email": "gunanto.simamora@gmail.com",
-            "homepage": "https://app-kita.com",
-            "role": "Developer"
+            "homepage": "https://app-kita.com"
         }
     ],
     "require": {
@@ -27,8 +26,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "phpunit\\phpunit": "^9"
+            "Tests\\": "tests/"
         }
     },
-    "minimum-stability": "dev"
+    "minimum-stability": "stable"
 }

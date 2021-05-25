@@ -1,11 +1,13 @@
 # PHP AUTHENTICATION
+
 ### _Simple Library PHP Authentication API_
+
 <a href="https://app-kita.com" alt="app-kita, app kita"><img src="https://app-kita.com/img/logo-teks.965d24bf.png" width="100"></a><br>
-[![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
+[![Build Status](https://www.travis-ci.com/gunantos/PHP_AUTHENTICATION.svg?branch=main)](https://www.travis-ci.com/gunantos/PHP_AUTHENTICATION)
 
 Sample Library PHP Authentication Restfull API
-- Support Multi Authentication
 
+- Support Multi Authentication
 
 ## Installation
 
@@ -16,9 +18,11 @@ Install composer follow [composer](https://getcomposer.org/download/)
 ```sh
 composer require appkita/phpauth
 ```
+
 or
 
 Edit composer.json and update composer
+
 ```sh
 {
     "require": {
@@ -26,6 +30,7 @@ Edit composer.json and update composer
     }
 }
 ```
+
 ## Features
 
 - API KEY Authentication
@@ -36,6 +41,7 @@ Edit composer.json and update composer
 ## Using
 
 _configuration_
+
 ```php
   $config = [
     'key_header'=>'X-API-KEY', //Delete if you not use API KEY
@@ -50,28 +56,34 @@ _configuration_
   //or
   use Appkita\PHPAuth;
   $auth = new Authentication($config);
-  //or configuration default 
+  //or configuration default
   $auth = new Authentication();
 ```
 
 ```php
     $cek = $auth->auth(METHOD, callback);
 ```
+
 _callback_ : is function to cek username or key you can set return or die
 but if you using digest authentication you must return array
-```php 
+
+```php
 return ['username'=>username, 'password'=>password];
 ```
+
 ```js
     method Support
     METHOD::Key = 'key',
     METHOD::Basic = 'basic',
     METHOD::Digest = 'digest'
     METHOD::Token = 'token' //is JWT Authentication
-    
+
 ```
+
 _Example_
+
 ### 1. KEY
+
 ```php
     $mykey = 'testingkey';
     $cek = $auth->auth(METHOD::KEY, function($key) {
@@ -82,7 +94,9 @@ _Example_
         }
     });
 ```
+
 ### 2. BASIC
+
 ```php
     $myusername = 'testingkey';
     $mypassword = 'password';
@@ -94,7 +108,9 @@ _Example_
         }
     });
 ```
+
 ### 3. DIGEST
+
 ```php
     $myusername = 'testingkey';
     $mypassword = 'password';
@@ -106,7 +122,9 @@ _Example_
         }
     });
 ```
+
 ### 4. TOKEN (JWT)
+
 ```php
     $myusername = 'testingkey';
     $cek = $auth->auth(METHOD::TOKEN, function($username) {
@@ -117,10 +135,10 @@ _Example_
         }
     });
 ```
+
 ## Development
 
 Want to contribute? Great!
-
 
 Open your favorite Terminal and run these commands.
 
