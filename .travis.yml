@@ -1,0 +1,31 @@
+language: php
+sudo: false
+matix:
+  fast_finish: true
+  include:
+    -php: 7.2
+env:
+  global:
+  - TRAVIS_DB=cfp_trapis
+cache:
+  directories:
+    - $HOME/.composer/cache
+before_install:
+  - if [[ "$TRAVIS_PULL_REQUEST" == "false" && "$TRAVIS_BRANCH" == "master" ]]; then COLLECT_COVERAGE=true; else COLLECT_COVERAGE=false; fi
+  - if [[ "$COLLECT_COVERAGE" == "false" ]]; then phpenv config-rm xdebug.ini; fi
+  - composer self-update
+  - composer validate --no-check-publish
+install:
+  - composer install
+
+before_script:
+  - sh tools/travis/setup-mail.sh
+  - mysql -e "CREATE DATABASE $TRAVIS_DB" -uroot
+  - vendor/bin/phinx --configuration=phinx.yml.dist migrate -e testing
+
+script:
+  - if [[ "$COLLECT_COVERAGE" == "true" ]]; then vendor/bin/phpunit --coverage-clover build/logs/clover.xml; else vendor/bin/phpunit; fi
+  - if [[ "$WITH_CS" == "true" ]]; then vendor/bin/php-cs-fixer fix --verbose; fi
+
+after_success:
+  - if [[ "$COLLECT_COVERAGE" == "true" ]]; then vendor/bin/test-reporter --coverage-report build/logs/clover.xml; fi
