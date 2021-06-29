@@ -1,6 +1,10 @@
 <?php
 namespace Appkita\PHPAuth;
 use METHOD;
+use Appkita\PHPAuth\Type\Key;
+use Appkita\PHPAuth\Type\Basic;
+use Appkita\PHPAuth\Type\Digest;
+use Appkita\PHPAuth\Type\Token;
 
 final class Authentication {
 
@@ -25,7 +29,7 @@ final class Authentication {
         $class = ucwords($class);
         if (!class_exists($class)) {
             set_error_handler(function ($servirity, $class) {
-                 throw new \ErrorException('Class not found or '. $class, 0, $servirity, __DIR__.DIRECTORY_SEPARATOR.'Authentication.php', 22);
+                 throw new \ErrorException('Class not found or '. $class, 0, $servirity, __DIR__.DIRECTORY_SEPARATOR.'Authentication.php', 28);
             });
         }
         $cll = '\\Appkita\\PHPAuth\\Type\\'. $class;
@@ -34,6 +38,6 @@ final class Authentication {
     }
 
     public function token() {
-        return \Appkita\PHPAuth\Type\Token($this->_config);
+        return new Token($this->_config);
     }
 }
