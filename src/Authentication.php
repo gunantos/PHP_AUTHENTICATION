@@ -32,4 +32,8 @@ final class Authentication {
         $cls = new $cll($this->_config);
         return $cls->decode($callback);
     }
+
+    public function token() {
+        return \Appkita\PHPAuth\Type\Token($this->_config);
+    }
 }
