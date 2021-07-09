@@ -40,13 +40,13 @@ class Digest {
         return $needed_parts ? false : $data;
     }
 
-    public function decode(callable $callback) {
+    public function decode(callable $callback, $config=[]) {
         $digest = $this->getDigest();
         if (is_null($digest)) return false;
         $digestParts = $this->digestParse($digest);
         $db = [];
         if (\is_callable($callback)) {
-            $db = \call_user_func($callback, $digestParts['username'], null);
+            $db = \call_user_func($callback, $digestParts['username'], null, $config);
         } else {
             set_error_handler(function ($servirity, $class) {
                  throw new \ErrorException('You must insert callback in Digest', 0, $servirity, $class, 59);

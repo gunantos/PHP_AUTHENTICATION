@@ -24,7 +24,7 @@ final class Authentication {
         return $this->_error;
     }
 
-    public function auth($class, callable $callback) {
+    public function auth($class, callable $callback, $args = []) {
         $class = strtolower($class);
         $class = ucwords($class);
         if (!class_exists($class)) {
@@ -34,7 +34,7 @@ final class Authentication {
         }
         $cll = '\\Appkita\\PHPAuth\\Type\\'. $class;
         $cls = new $cll($this->_config);
-        return $cls->decode($callback);
+        return $cls->decode($callback, $args);
     }
 
     public function token() {

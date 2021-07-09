@@ -15,13 +15,13 @@ class Basic {
     function __construct(Array $config = []) {
     }
 
-    public function decode(callable $callback) {
+    public function decode(callable $callback, $config = []) {
         $has_supplied_credentials = !(empty($_SERVER['PHP_AUTH_USER']) && empty($_SERVER['PHP_AUTH_PW']));
         if (!$has_supplied_credentials) {
             return false;
         }
         $username = $_SERVER['PHP_AUTH_USER'];
         $password = $_SERVER['PHP_AUTH_PW'];
-        return \call_user_func($callback, $username, $password);
+        return \call_user_func($callback, $username, $password, $config);
     }
 }

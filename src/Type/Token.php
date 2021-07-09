@@ -29,7 +29,7 @@ class Token
     }
 
 
-    public function decode(callable $callback) {
+    public function decode(callable $callback, $args = []) {
         if (!isset($_SERVER['HTTP_AUTHORIZATION'])) {
             return false;
         }
@@ -40,7 +40,7 @@ class Token
         if (! $decodedToken) {
             return false;
         }
-        $decodedToken = JWT::decode($encodedToken, $this->key, ['HS256']);
+        $decodedToken = JWT::decode($decodedToken, $this->key, ['HS256']);
         if (!$decodedToken) {
             return false;
         }
@@ -54,7 +54,7 @@ class Token
         if (!isset($decodedToken->{$this->data})) {
              return false;
         }
-        return \call_user_func($callback, $decodedToken->{$this->data});
+        return \call_user_func($callback, $decodedToken->{$this->data}, $args);
     }
 
     public function encode($data) : string {

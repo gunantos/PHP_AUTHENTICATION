@@ -66,11 +66,11 @@ class Key
         return $key_value;
     }
 
-    public function decode(callable $callback) {
+    public function decode(callable $callback, $config=[]) {
         $key = $this->getKey();
         if (empty($key)) {
             return false;
         }
-        return \call_user_func($callback, $key);
+        return \call_user_func($callback, $key, $config);
     }
 }
