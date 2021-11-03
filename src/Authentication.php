@@ -39,7 +39,8 @@ final class Authentication {
         return $cls->decode($callback, $args);
     }
 
-    public function token() {
-        return new Token($this->_config);
+   public function token($data) {
+        $tkn = new Token($this->_config);
+        return $tkn->encode($data);
     }
 }
