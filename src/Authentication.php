@@ -16,6 +16,8 @@ final class Authentication {
         if (!empty($config)) {
             if (\is_array($config)) {
                 $this->_config = $config;
+            } else if (is_object($config)) {
+                $this->_config = (array) $config;
             }
         }
     }

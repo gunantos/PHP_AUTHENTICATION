@@ -50,7 +50,11 @@ _configuration_
     'data'=>'username',
     'timeout'=>3600,
     'iss'=>'mydomain.com',
-    'aud'=>'mydomain.com'
+    'aud'=>'mydomain.com',
+    'basic_auth'=>[
+        'username_key'=>'email',
+        'password_key'=>'password'
+    ];
   ];
   $auth = new Appkita\PHPAuth\Authentication($config);
   //or
