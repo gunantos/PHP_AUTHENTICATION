@@ -1,5 +1,32 @@
 # PHP AUTHENTICATION
 
+### new version beta
+
+- add Google Auth
+
+  ```php
+      $mykey = 'testingkey';
+      $cek = $auth->auth(METHOD::GOOGLE, function($key) {
+          if ($key === $mykey) {
+              return true;
+          } else {
+              return false;
+          }
+      }, $json_file);
+
+      #or
+      $mykey = 'testingkey';
+      $cek = $auth->auth(METHOD::GOOGLE, function($key) {
+          if ($key === $mykey) {
+              return true;
+          } else {
+              return false;
+          }
+      }, ['clientID'=>$yourclientid, 'clientSecret'=>$yourclientSecret, 'redirectUri'=>$redirect_url, 'scope'=>$scope]);
+  ```
+
+- add Facebook auth
+
 ### _Simple Library PHP Authentication API_
 
 <a href="https://app-kita.com" alt="app-kita, app kita"><img src="https://app-kita.com/img/logo-teks.965d24bf.png" width="100"></a><br>
