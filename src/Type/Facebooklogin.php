@@ -15,6 +15,10 @@ class Facebooklogin {
     private $helper;
     private $facebook_login_url;
 
+    function __construct($config) {
+        $this->init($config);
+    }
+    
     private function init($config) {
         $clientID = ''; 
         $clientSecret = '';
@@ -22,18 +26,18 @@ class Facebooklogin {
         $scope = [];
         $config_file = false;
         if (\is_array($config)) {
-            if (isset($config->clientID)) {
-                $clientID = $config->clientID;
+            if (isset($config->FB_clientID)) {
+                $clientID = $config->FB_clientID;
             }
             
-            if (isset($config->clientSecret)) {
-                $clientSecret = $config->clientSecret;
+            if (isset($config->FB_clientSecret)) {
+                $clientSecret = $config->FB_clientSecret;
             }
             
-            if (isset($config->redirectUri)) {
-                $redirectUri = $config->redirectUri;
+            if (isset($config->FB_redirectUri)) {
+                $redirectUri = $config->FB_redirectUri;
             }
-            if (isset($config->scope)) {
+            if (isset($config->FB_scope)) {
                 $scope = $config->scope;
             }else{
                 $scope = ['id', 'first_name', 'last_name', 'email', 'gender', 'locale', 'picture'];
@@ -56,7 +60,7 @@ class Facebooklogin {
         return $this->facebook_login_url;
     }
 
-    public function decode($callback, $config = []) {
+    public function decode($callback, $args = []) {
         $error = '';
         try {
             $accessToken = $this->facebook_helper->getAccessToken();
@@ -72,7 +76,7 @@ class Facebooklogin {
         $tokenMetadata = $oAuth2Client->debugToken($accessToken);
         try {
             $user = $this->client->get('/me?fields='. implode($this->scope), $accessToken);
-            return \call_user_func($callback, $user);
+            return \call_user_func($callback, $user, $args);
         } catch(Exception $e) {
             return false;
         }

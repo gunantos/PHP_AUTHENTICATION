@@ -13,6 +13,10 @@ namespace Appkita\PHPAuth\Type;
 class GoogleLogin {
     private $client;
 
+    function __construct($config) {
+        $this->init($config);
+    }
+
     private function init($config) {
         $clientID = '';
         $clientSecret = '';
@@ -20,12 +24,12 @@ class GoogleLogin {
         $scope = [];
         $config_file = false;
          if (\is_array($config)) {
-            if (isset($config->clientID)) {
-                $clientID = $config->clientID;
+            if (isset($config->Google_clientID)) {
+                $clientID = $config->Google_clientID;
             }
             
-            if (isset($config->clientSecret)) {
-                $clientSecret = $config->clientSecret;
+            if (isset($config->Google_clientSecret)) {
+                $clientSecret = $config->Google_clientSecret;
             }
             
             if (isset($config->redirectUri)) {
@@ -66,12 +70,12 @@ class GoogleLogin {
         return $this->client->createAuthUrl();
     }
 
-    public function decode($callback, $config = []) {
+    public function decode($callback, $args = []) {
         if (isset($_GET['code']) && !empty($_GET['code'])) {
             $token = $client->fetchAccessTokenWithAuthCode($code);
             $this->client->setAccessToken($token['access_token']);
             $googleauth = new Google_Service_Oauth2($client);
-            return \call_user_func($callback, $googleauth->userinfo->get());
+            return \call_user_func($callback, $googleauth->userinfo->get(), $args);
         } else {
             header('Location: '. $this->urlLogin, true);
             die();
