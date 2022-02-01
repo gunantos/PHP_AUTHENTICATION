@@ -41,7 +41,7 @@ class GoogleLogin {
             }
         }
         if ($config_file) {
-            $this->client = new Google\Client();
+            $this->client = new \Google\Client();
             $this->client->setAuthConfig($config);
         } else {
             if (empty($clientID) || empty($clientSecret) || empty($redirectUri)) {

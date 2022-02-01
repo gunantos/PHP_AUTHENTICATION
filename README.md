@@ -25,7 +25,22 @@
       }, ['clientID'=>$yourclientid, 'clientSecret'=>$yourclientSecret, 'redirectUri'=>$redirect_url, 'scope'=>$scope]);
   ```
 
+  more info [Google Doc] (https://console.developers.google.com/?pli=1)
+
 - add Facebook auth
+
+  ```php
+      $mykey = 'testingkey';
+      $cek = $auth->auth(METHOD::FACEBOOK, function($key) {
+          if ($key === $mykey) {
+              return true;
+          } else {
+              return false;
+          }
+      }, ['clientID'=>$yourclientid, 'clientSecret'=>$yourclientSecret, 'redirectUri'=>$redirect_url, 'scope'=>$scope]);
+  ```
+
+  more info [Facebook Document] (https://developers.facebook.com/docs/facebook-login/web/)
 
 ### _Simple Library PHP Authentication API_
 

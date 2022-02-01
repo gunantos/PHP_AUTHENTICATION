@@ -12,14 +12,16 @@ namespace Appkita\PHPAuth\Type;
 
 class Facebooklogin {
     private $client;
+    private $helper;
+    private $facebook_login_url;
 
     private function init($config) {
-        $clientID = '';
+        $clientID = ''; 
         $clientSecret = '';
         $redirectUri = '';
         $scope = [];
         $config_file = false;
-         if (\is_array($config)) {
+        if (\is_array($config)) {
             if (isset($config->clientID)) {
                 $clientID = $config->clientID;
             }
@@ -33,48 +35,46 @@ class Facebooklogin {
             }
             if (isset($config->scope)) {
                 $scope = $config->scope;
+            }else{
+                $scope = ['id', 'first_name', 'last_name', 'email', 'gender', 'locale', 'picture'];
             }
             $config_file = true;
-        } else {
-            if (\file_exists($config)) {
-                $config_file = true;
-            }
         }
-        if ($config_file) {
-            $this->client = new Google\Client();
-            $this->client->setAuthConfig($config);
-        } else {
             if (empty($clientID) || empty($clientSecret) || empty($redirectUri)) {
-                die('Google Api not config. Go to https://console.developers.google.com/?pli=1 to information');
+                die('Facebook Api not config. Go to <a href="https://developers.facebook.com/docs/facebook-login/web/accesstokens">https://developers.facebook.com/docs/facebook-login/web/accesstokens</a> to information');
             }
-            $this->client = new Google\Client();
-            $this->client->setClientId($clientID);
-            $this->client->setClientSecret($clientSecret);
-            $this->client->setRedirectUri($redirectUri);
-            if (\sizeof($scope) > 0) {
-                for($i = 0; $i < sizeof($scope); $i++) {
-                    $this->client->addScope($scope[$i]);
-                }
-            } else {
-                $this->client->addScope("email");
-                $this->client->addScope("profile");
-            }
-        }
+            $this->client = new \Facebook\Facebook([
+                'app_id'=>$clientID,
+                'app_secret'=>$clientSecret,
+                'default_graph_version'=>'v2.10'
+            ]);
+            $this->helper  = $this->client->getRedirectLoginHelper();
+            $this->facebook_login_url = $this->helper->getLoginUrl($redirectUri, $scope);
     }
 
     public function urlLogin() {
-        return $this->client->createAuthUrl();
+        return $this->facebook_login_url;
     }
 
     public function decode($callback, $config = []) {
-        if (isset($_GET['code']) && !empty($_GET['code'])) {
-            $token = $client->fetchAccessTokenWithAuthCode($code);
-            $this->client->setAccessToken($token['access_token']);
-            $googleauth = new Google_Service_Oauth2($client);
-            return \call_user_func($callback, $googleauth->userinfo->get());
-        } else {
-            header('Location: '. $this->urlLogin, true);
-            die();
+        $error = '';
+        try {
+            $accessToken = $this->facebook_helper->getAccessToken();
+        } catch(Facebook\Exceptions\FacebookResponseException $e) {  
+            $error = $e->getMessage();  
+        } catch(Facebook\Exceptions\FacebookSDKException $e) {  
+            $error = $e->getMessage();  
+        } 
+        if (!isset($accessToken)) {
+            return false;
+        }
+        $oAuth2Client = $this->client->getOAuth2Client();
+        $tokenMetadata = $oAuth2Client->debugToken($accessToken);
+        try {
+            $user = $this->client->get('/me?fields='. implode($this->scope), $accessToken);
+            return \call_user_func($callback, $user);
+        } catch(Exception $e) {
+            return false;
         }
     }
 }
