@@ -9,7 +9,7 @@ Sample Library PHP Authentication Restfull API
 
 - Support Multi Authentication
 
-### new version beta
+### new version 2.0
 
 - add Google Auth
 
