@@ -1,47 +1,5 @@
 # PHP AUTHENTICATION
 
-### new version beta
-
-- add Google Auth
-
-  ```php
-      $mykey = 'testingkey';
-      $cek = $auth->auth(METHOD::GOOGLE, function($key) {
-          if ($key === $mykey) {
-              return true;
-          } else {
-              return false;
-          }
-      }, $json_file);
-
-      #or
-      $mykey = 'testingkey';
-      $cek = $auth->auth(METHOD::GOOGLE, function($key) {
-          if ($key === $mykey) {
-              return true;
-          } else {
-              return false;
-          }
-      }, ['clientID'=>$yourclientid, 'clientSecret'=>$yourclientSecret, 'redirectUri'=>$redirect_url, 'scope'=>$scope]);
-  ```
-
-  more info [Google Doc] (https://console.developers.google.com/?pli=1)
-
-- add Facebook auth
-
-  ```php
-      $mykey = 'testingkey';
-      $cek = $auth->auth(METHOD::FACEBOOK, function($key) {
-          if ($key === $mykey) {
-              return true;
-          } else {
-              return false;
-          }
-      }, ['clientID'=>$yourclientid, 'clientSecret'=>$yourclientSecret, 'redirectUri'=>$redirect_url, 'scope'=>$scope]);
-  ```
-
-  more info [Facebook Document] (https://developers.facebook.com/docs/facebook-login/web/)
-
 ### _Simple Library PHP Authentication API_
 
 <a href="https://app-kita.com" alt="app-kita, app kita"><img src="https://app-kita.com/img/logo-teks.965d24bf.png" width="100"></a><br>
@@ -50,6 +8,55 @@
 Sample Library PHP Authentication Restfull API
 
 - Support Multi Authentication
+
+### new version beta
+
+- add Google Auth
+
+  #### Get URL Login
+
+  ```php
+  $configApi = [
+       public $google = [
+      'clientID' => 'your client id',
+      'clientSecret' => 'secret client',
+      'redirectUri' => 'redirect url',
+    ];
+     public $facebook = [
+      'clientID' => 'your client id',
+      'clientSecret' => 'secret client',
+      'redirectUri' => 'redirect url',
+    ];
+  ]
+  $FB = new \Appkita\PHPAuth\Type\Facebooklogin($configApi);
+  $GOOGLE = new \Appkita\PHPAuth\Type\GoogleLogin($this->configApi);
+
+  //get FB login url
+  function loginFB() {
+      header('location:'. $FB->urlLogin());
+  }
+
+  //get Google Login url
+  function loginGoogle() {
+      header('location:'. $GOOGLE->urlLogin());
+  }
+
+  //url callback fb login to verify token
+  function verify_fb() {
+      return $FB->decode(function($user, $args, $error) {
+            die(json_encode($user));
+        });
+  }
+  //url callback fb Google to verify token
+  function verify_fb() {
+      return $FB->decode(function($user, $args, $error) {
+            die(json_encode($user));
+        }, []);
+  }
+  ```
+
+  more info [Google Doc] (https://console.developers.google.com/?pli=1)
+  more info [Facebook Document] (https://developers.facebook.com/docs/facebook-login/web/)
 
 ## Installation
 
