@@ -13,8 +13,6 @@ Sample Library PHP Authentication Restfull API
 
 - add Google Auth
 
-  #### Get URL Login
-
   ```php
   $configApi = [
        public $google = [
@@ -28,7 +26,10 @@ Sample Library PHP Authentication Restfull API
       'redirectUri' => 'redirect url',
     ];
   ]
+
+  //identifikasi Facebook Library
   $FB = new \Appkita\PHPAuth\Type\Facebooklogin($configApi);
+  //identifikas google library
   $GOOGLE = new \Appkita\PHPAuth\Type\GoogleLogin($this->configApi);
 
   //get FB login url
@@ -55,8 +56,8 @@ Sample Library PHP Authentication Restfull API
   }
   ```
 
-  more info [Google Doc] (https://console.developers.google.com/?pli=1)
-  more info [Facebook Document] (https://developers.facebook.com/docs/facebook-login/web/)
+  more info [Google Doc] (https://github.com/googleapis/google-api-php-client)
+  more info [Facebook Document] (https://github.com/facebookarchive/php-graph-sdk)
 
 ## Installation
 
