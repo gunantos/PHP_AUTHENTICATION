@@ -16,6 +16,9 @@ class Facebooklogin {
     private $facebook_login_url;
 
     function __construct($configs) {
+        if (class_exists('\\Facebook\\Facebook')) {
+            die('facebook/graph-sdk not installed. please install `composer require facebook/graph-sdk`');
+        }
         $file = false;
         if (\is_array($configs)) {
             if (isset($configs['facebook'])) {

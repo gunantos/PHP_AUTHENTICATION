@@ -14,6 +14,9 @@ class GoogleLogin {
     private $client;
 
     function __construct($configs) {
+        if (class_exists('\\Google\\Client')) {
+            die('google/apiclient not installed. please install `composer require google/apiclient`');
+        }
         $file = false;
         if (\is_array($configs)) {
             if (isset($configs['google'])) {
