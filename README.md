@@ -231,4 +231,4 @@ MIT
 
 # Sponsor
 
-[Pay Coffe](https://sponsor.app-kita.net)
+[Pay Coffe](https://github.com/sponsors/gunantos)
