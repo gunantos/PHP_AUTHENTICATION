@@ -1,7 +1,7 @@
 {
     "name": "appkita/phpauth",
-    "description": "Library for Authentication API use PHP",
-    "keywords": ["php", "authentication", "auth", "jwt", "digest", "basic"],
+    "description": ":Small library PHP for authentication support facebook, google, key, jwt, diggest, basic and session",
+    "keywords": ["php", "authentication", "auth", "jwt", "digest", "basic", "facebook login", "google login"],
     "type": "library",
     "license": "MIT",
     "authors": [

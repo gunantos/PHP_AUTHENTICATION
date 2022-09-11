@@ -9,18 +9,31 @@ Sample Library PHP Authentication Restfull API
 
 - Support Multi Authentication
 
-### new version 2.0
+### new version 2.1
+- add Session auth
+    ```php
+    use Appkita\PHPAuth;
+    $config = [
+        'session' => [
+            'session_key'=>'isLogin'
+        ]
+    ];
+    $auth = new Authentication($config);
+    $cek = $auth->auth(METHOD::SESSION, function($auth) {
+        return ($auth ? true : false);
+    });
+    ```
 
 - add Google Auth and Facebook Auth
 
   ```php
   $configApi = [
-       public $google = [
+      'google' = [
       'clientID' => 'your client id',
       'clientSecret' => 'secret client',
       'redirectUri' => 'redirect url',
     ];
-     public $facebook = [
+     'facebook' = [
       'clientID' => 'your client id',
       'clientSecret' => 'secret client',
       'redirectUri' => 'redirect url',
@@ -89,6 +102,7 @@ Edit composer.json and update composer
 - Digest Authentication
 - Google Auth
 - Facebook Auth
+- SESSION
 
 ## Using
 

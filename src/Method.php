@@ -2,6 +2,7 @@
 namespace Appkita\PHPAuth;
 
 class METHOD {
+    public CONST SESSION = 'session';
     public CONST KEY = 'key';
     public CONST TOKEN = 'token';
     public CONST DIGEST = 'digest';
