@@ -11,7 +11,7 @@ Sample Library PHP Authentication Restfull API
 
 ### new version 2.0
 
-- add Google Auth
+- add Google Auth and Facebook Auth
 
   ```php
   $configApi = [
@@ -87,6 +87,8 @@ Edit composer.json and update composer
 - JWT Authentication (Token)
 - Basic Authentication
 - Digest Authentication
+- Google Auth
+- Facebook Auth
 
 ## Using
 
